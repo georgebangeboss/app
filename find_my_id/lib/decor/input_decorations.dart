@@ -1,5 +1,5 @@
 import 'package:find_my_id/decor/palette.dart';
-import 'package:find_my_id/decor/tex_styles.dart';
+import 'package:find_my_id/decor/text_styles.dart';
 import 'package:flutter/material.dart';
 
 InputDecoration inputDecor = InputDecoration(

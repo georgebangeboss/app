@@ -1,3 +1,4 @@
+import 'package:find_my_id/decor/palette.dart';
 import 'package:find_my_id/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -20,7 +21,7 @@ class _SplashState extends State<Splash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFd0e7ec),
+      backgroundColor: colorWhiteBackground,
       body: Center(
         child: SizedBox(
           height: 500,
@@ -29,21 +30,15 @@ class _SplashState extends State<Splash> {
               mainAxisAlignment: MainAxisAlignment.center,
               mainAxisSize: MainAxisSize.min,
               children: [
-                RichText(
-                  text: TextSpan(
-                    text: "KSB ",
-                    children: [
-                      TextSpan(
-                        text: 'Supreme ',
-                        style: TextStyle(),
-                      ),
-                      const TextSpan(
-                        text: 'Serv',
-                        style: TextStyle(),
-                      ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset(
+                    'assets/images/FInD.png',
+                    height: 130,
+                    width: 130,
                   ),
                 ),
+                
               ],
             ),
           ),

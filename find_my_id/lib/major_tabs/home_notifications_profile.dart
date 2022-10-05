@@ -1,3 +1,4 @@
+import 'package:find_my_id/constants/string_resources.dart';
 import 'package:find_my_id/decor/palette.dart';
 import 'package:find_my_id/major_tabs/home_page.dart';
 import 'package:find_my_id/major_tabs/notifications_page.dart';
@@ -35,21 +36,21 @@ class _HomeNotificationsProfileState extends State<HomeNotificationsProfile> {
         ProfilePage(),
       ].elementAt(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: colorNavBackground,
+        backgroundColor: colorWhiteBackground,
         selectedItemColor: colorNavIconChecked,
         unselectedItemColor: colorNavIconUnchecked,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_rounded),
-            label: "Home",
+            label: homeNavLabel,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.notifications_rounded),
-            label: "Alerts",
+            label: alertsNavLabel,
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_outline_rounded),
-            label: "My Profile",
+            label: profileNavLabel,
           ),
         ],
         elevation: 20,

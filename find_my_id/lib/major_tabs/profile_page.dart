@@ -1,3 +1,4 @@
+import 'package:find_my_id/constants/string_resources.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -12,7 +13,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Profile"),
+        title: Text(myProfileAppBarTitle),
       ),
       body: SizedBox(),
     );

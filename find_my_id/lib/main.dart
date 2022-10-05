@@ -1,5 +1,5 @@
 import 'package:find_my_id/decor/palette.dart';
-import 'package:find_my_id/decor/tex_styles.dart';
+import 'package:find_my_id/decor/text_styles.dart';
 import 'package:find_my_id/routes/routes.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       initialRoute: RouteManager.splash,
       onGenerateRoute: RouteManager.generateRoute,
@@ -33,12 +34,13 @@ class MyApp extends StatelessWidget {
           ),
         ),
         appBarTheme: AppBarTheme(
-          backgroundColor: colorPrimary,
-          foregroundColor: colorBackground,
+          backgroundColor: colorWhiteBackground,
+          foregroundColor: colorPrimary,
         ),
         scaffoldBackgroundColor: colorBackground,
       ),
+      navigatorKey: GlobalKey<NavigatorState>(),
+      scaffoldMessengerKey: GlobalKey<ScaffoldMessengerState>(),
     );
   }
 }
-

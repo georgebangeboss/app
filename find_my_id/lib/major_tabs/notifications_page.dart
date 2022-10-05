@@ -1,3 +1,4 @@
+import 'package:find_my_id/constants/string_resources.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsPage extends StatefulWidget {
@@ -12,7 +13,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Alerts"),
+        title: Text(alertsAppBarTitle),
       ),
       body: SizedBox(),
     );
