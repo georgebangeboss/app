@@ -2,7 +2,7 @@ import 'package:find_my_id/constants/string_resources.dart';
 import 'package:find_my_id/decor/palette.dart';
 import 'package:find_my_id/major_tabs/home_page.dart';
 import 'package:find_my_id/major_tabs/notifications_page.dart';
-import 'package:find_my_id/major_tabs/profile._pagedart';
+import 'package:find_my_id/major_tabs/profile_page.dart';
 import 'package:flutter/material.dart';
 
 class HomeNotificationsProfile extends StatefulWidget {

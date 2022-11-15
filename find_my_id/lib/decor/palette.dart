@@ -23,3 +23,9 @@ const colorPopupText = Color.fromARGB(10, 33, 149, 243);
 
 const colorLogoOrange = Color(0xFFff914d);
 const colorLogoBlack = Color(0xFF000000);
+
+//cam_scan page
+const idWindowColor = Color(0xFFFFFF);
+const colorCameraWindowBorder = Color.fromRGBO(255, 255, 255, 0.8);
+const colorCameraPageBackground = Color(0x000000FF);
+const colorCameraPageForeground = Color(0xFFFFFFFF);

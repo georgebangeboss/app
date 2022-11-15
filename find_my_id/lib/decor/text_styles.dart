@@ -16,7 +16,7 @@ TextStyle appBarText = TextStyle(
   color: primaryText,
   fontStyle: FontStyle.normal,
   letterSpacing: 0.8,
-  fontWeight: FontWeight.w900,
+  fontWeight: FontWeight.bold,
   fontSize: 25,
   height: 0.5,
 );

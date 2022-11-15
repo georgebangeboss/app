@@ -13,9 +13,10 @@ class ReportLostFoundCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         if (illustrationFile == lostIllustration) {
-          Navigator.pushNamed(context, RouteManager.reportLost);
+          //Navigator.pushNamed(context, RouteManager.pickOnePopup,arguments: pickOneFn);
         } else {
-          Navigator.pushNamed(context, RouteManager.reportFound);
+          // Navigator.pushNamed(context, RouteManager.confirmPopup, arguments: confirmFn);
+          Navigator.pushNamed(context, RouteManager.camScanPage);
         }
       },
       child: Card(
