@@ -29,7 +29,7 @@ class RouteManager {
         return MaterialPageRoute(
             builder: (context) => HomeNotificationsProfile());
       case camScanPage:
-        return MaterialPageRoute(builder: (context) => CamScanPage());
+        return MaterialPageRoute(builder: (context) => CamScanPage(gate: args as String,));
       case searchPage:
         return MaterialPageRoute(builder: (context) => SearchPage());
       case picPreviewPage:

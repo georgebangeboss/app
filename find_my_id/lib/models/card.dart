@@ -4,15 +4,14 @@ import 'package:built_value/serializer.dart';
 part 'card.g.dart';
 
 abstract class BuiltCard implements Built<BuiltCard, BuiltCardBuilder> {
-  String? get firstName;
-  String? get secondName;
-  String? get thirdName;
-  String? get regNumber;
-  String? get idNumber;
+  String? get idString;
+  String? get owner;
+  String? get name;
   String? get status;
+  String? get college_name;
+  String? get regNumber;
   String? get department;
   String? get locationFound;
-  String? get schoolName;
   
   BuiltCard._();
 

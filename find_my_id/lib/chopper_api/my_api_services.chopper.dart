@@ -17,30 +17,18 @@ class _$MyApiService extends MyApiService {
   final definitionType = MyApiService;
 
   @override
-  Future<Response<BuiltList<BuiltCard>>> getCards(String searchString) {
-    final String $url = '/search/${searchString}';
-    final Request $request = Request(
-      'GET',
-      $url,
-      client.baseUrl,
-    );
-    return client.send<BuiltList<BuiltCard>, BuiltCard>($request);
-  }
-
-  @override
   Future<Response<dynamic>> postCard({
     http.MultipartFile? image,
-    String? firstName,
-    String? secondName,
-    String? thirdName,
-    String? regNumber,
-    String? idNumber,
+    String? idString,
+    int? owner,
+    String? name,
     String? status,
+    String? collegeName,
+    String? regNumber,
     String? department,
     String? locationFound,
-    String? schoolName,
   }) {
-    final String $url = '/create';
+    final String $url = '/cards/create';
     final Map<String, String> $headers = {
       'content-type': 'multipart/form-data',
     };
@@ -50,28 +38,28 @@ class _$MyApiService extends MyApiService {
         image,
       ),
       PartValue<String?>(
-        'first_name',
-        firstName,
+        'id_string',
+        idString,
+      ),
+      PartValue<int?>(
+        'owner',
+        owner,
       ),
       PartValue<String?>(
-        'second_name',
-        secondName,
-      ),
-      PartValue<String?>(
-        'third_name',
-        thirdName,
-      ),
-      PartValue<String?>(
-        'reg_number',
-        regNumber,
-      ),
-      PartValue<String?>(
-        'id_number',
-        idNumber,
+        'name',
+        name,
       ),
       PartValue<String?>(
         'status',
         status,
+      ),
+      PartValue<String?>(
+        'college_name',
+        collegeName,
+      ),
+      PartValue<String?>(
+        'reg_number',
+        regNumber,
       ),
       PartValue<String?>(
         'department',
@@ -81,10 +69,6 @@ class _$MyApiService extends MyApiService {
         'location_found',
         locationFound,
       ),
-      PartValue<String?>(
-        'school_name',
-        schoolName,
-      ),
     ];
     final Request $request = Request(
       'POST',
@@ -92,6 +76,37 @@ class _$MyApiService extends MyApiService {
       client.baseUrl,
       parts: $parts,
       multipart: true,
+      headers: $headers,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> getCards({required String searchFilterString}) {
+    final String $url = '/cards/list/${searchFilterString}';
+    final Request $request = Request(
+      'GET',
+      $url,
+      client.baseUrl,
+    );
+    return client.send<dynamic, dynamic>($request);
+  }
+
+  @override
+  Future<Response<dynamic>> updateCardStatus({
+    required int id,
+    required Map<String, String> status,
+  }) {
+    final String $url = '/cards/update/${id}/';
+    final Map<String, String> $headers = {
+      'content-type': 'application/json',
+    };
+    final $body = status;
+    final Request $request = Request(
+      'PUT',
+      $url,
+      client.baseUrl,
+      body: $body,
       headers: $headers,
     );
     return client.send<dynamic, dynamic>($request);

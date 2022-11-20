@@ -7,16 +7,22 @@ import 'package:find_my_id/decor/palette.dart';
 import 'package:find_my_id/decor/text_styles.dart';
 import 'package:find_my_id/main.dart';
 import 'package:find_my_id/notifiers/photo_notifier.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:http/http.dart' as http;
 import 'package:find_my_id/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+const double cameraViewTopBottomPadding = 220;
+const double cameraViewLeftRightPadding = 12;
+
 class CamScanPage extends StatefulWidget {
-  const CamScanPage({Key? key}) : super(key: key);
+  final String gate;
+  const CamScanPage({Key? key, required this.gate}) : super(key: key);
   @override
   State<CamScanPage> createState() => _CamScanPageState();
 }
@@ -24,7 +30,8 @@ class CamScanPage extends StatefulWidget {
 class _CamScanPageState extends State<CamScanPage> {
   late CameraController controller;
   bool isFlashOn = false;
-  XFile? imageFile;
+  File? unCroppedFile;
+  File? _selectedPhoto;
 
   @override
   void initState() {
@@ -34,10 +41,12 @@ class _CamScanPageState extends State<CamScanPage> {
     _requestPermissions();
 
     controller = CameraController(cameras[0], ResolutionPreset.max);
+
     controller.initialize().then((_) {
       if (!mounted) {
         return;
       }
+      controller.setFlashMode(FlashMode.off);
       setState(() {});
     }).catchError((Object e) {
       if (e is CameraException) {
@@ -153,25 +162,15 @@ class _CamScanPageState extends State<CamScanPage> {
   }
 
   void _onCaptureButtonPressed() {
-    cameraCapture().then((xFile) {
-      if (xFile != null) {
-        File file = File(xFile.path);
-        Provider.of<PhotosNotifier>(context, listen: false).selectImage(file);
-        print(xFile.path.toString());
-      }
+    cameraCapture().then((unCroppedFile) {
+      _cropAndSendToDB(unCroppedFile);
     });
-    sendCardToDB();
   }
 
   void _onGalleryButtonPressed() {
-    pickImageFromGallery().then((xFile) {
-      if (xFile != null) {
-        File file = File(xFile.path);
-        Provider.of<PhotosNotifier>(context, listen: false).selectImage(file);
-        print(xFile.path.toString());
-      }
+    pickImageFromGallery().then((unCroppedFile) {
+      _cropAndSendToDB(unCroppedFile);
     });
-    sendCardToDB();
   }
 
   void _requestPermissions() async {
@@ -201,7 +200,11 @@ class _CamScanPageState extends State<CamScanPage> {
 
   Widget _positionedWindow() {
     return Positioned.fromRelativeRect(
-      rect: RelativeRect.fromLTRB(12, 220, 12, 220),
+      rect: RelativeRect.fromLTRB(
+          cameraViewLeftRightPadding,
+          cameraViewTopBottomPadding,
+          cameraViewLeftRightPadding,
+          cameraViewTopBottomPadding),
       child: Container(
         decoration: BoxDecoration(
             color: idWindowColor,
@@ -211,45 +214,81 @@ class _CamScanPageState extends State<CamScanPage> {
     );
   }
 
+  void _cropAndSendToDB(XFile? inputFile) async {
+    if (inputFile == null) {
+      return;
+    }
+    CroppedFile? croppedFile = await ImageCropper().cropImage(
+      sourcePath: inputFile.path,
+      compressFormat: ImageCompressFormat.jpg,
+      compressQuality: 100,
+      uiSettings: [
+        AndroidUiSettings(
+            toolbarTitle: 'Crop',
+            toolbarColor: Colors.deepOrange,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio: CropAspectRatioPreset.ratio3x2,
+            lockAspectRatio: false),
+        IOSUiSettings(
+          title: 'Cropper',
+        ),
+      ],
+    );
+    if (croppedFile != null) {
+      _selectedPhoto = File(croppedFile.path);
+    }
+    sendCardToDB();
+  }
+
   void _onTextButtonPressed() {
     //TODO: open Text Input Page
   }
-  void sendCardToDB() {
-    recognizeCharacters();
-  }
+  void sendCardToDB() async {
+    String? idWords;
 
-  Future recognizeCharacters() async {
-    File? selectedPhoto = context.read<PhotosNotifier>().selectedPhoto;
     http.MultipartFile? image;
-
-    if (selectedPhoto != null) {
+    if (_selectedPhoto != null) {
       image = await http.MultipartFile.fromPath(
         'image',
-        selectedPhoto.path,
+        _selectedPhoto!.path,
       );
+      idWords = await recognizeCharacters(_selectedPhoto!);
     }
-
-    //Recognize characters here
 
     var response =
         await Provider.of<MyApiService>(context, listen: false).postCard(
       image: image,
-      firstName: "George",
-      secondName: "Bange",
-      thirdName: "Ogeto",
-      regNumber: "ENE221-0109/2017",
-      department: "TIE",
-      schoolName: "SEEIE",
-      locationFound: "GATE A",
+      idString: idWords,
+      locationFound: widget.gate[widget.gate.length-1],
+      status: "L"
     );
     bool isSuccessful = response.isSuccessful;
-    // Navigator.popUntil(context, ModalRoute.withName(RouteManager.home));
+
     if (isSuccessful) {
-      createSnackBar(context: context, text: 'Successfully uploaded ID card');
-      Navigator.pop(context);
+      createSnackBar(context: context, text: upload_successful);
     } else {
-      createSnackBar(context: context, text: 'Unsuccessful');
-      Navigator.pop(context);
+      createSnackBar(context: context, text: unsuccessful_request);
     }
+    Navigator.pop(context);
+  }
+
+  Future<String?> recognizeCharacters(File selectedPhoto) async {
+    String idWords = "";
+
+    final textRecognizer = TextRecognizer(script: TextRecognitionScript.latin);
+    final inputImage = InputImage.fromFilePath(selectedPhoto.path);
+    final RecognizedText recognizedText =
+        await textRecognizer.processImage(inputImage);
+
+    for (TextBlock block in recognizedText.blocks) {
+      for (TextLine line in block.lines) {
+        for (TextElement element in line.elements) {
+          idWords += element.text;
+          idWords += " ";
+        }
+      }
+    }
+
+    return idWords;
   }
 }

@@ -19,38 +19,24 @@ class _$BuiltCardSerializer implements StructuredSerializer<BuiltCard> {
       {FullType specifiedType = FullType.unspecified}) {
     final result = <Object?>[];
     Object? value;
-    value = object.firstName;
+    value = object.idString;
     if (value != null) {
       result
-        ..add('firstName')
+        ..add('idString')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.secondName;
+    value = object.owner;
     if (value != null) {
       result
-        ..add('secondName')
+        ..add('owner')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.thirdName;
+    value = object.name;
     if (value != null) {
       result
-        ..add('thirdName')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.regNumber;
-    if (value != null) {
-      result
-        ..add('regNumber')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
-    value = object.idNumber;
-    if (value != null) {
-      result
-        ..add('idNumber')
+        ..add('name')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -58,6 +44,20 @@ class _$BuiltCardSerializer implements StructuredSerializer<BuiltCard> {
     if (value != null) {
       result
         ..add('status')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.college_name;
+    if (value != null) {
+      result
+        ..add('college_name')
+        ..add(serializers.serialize(value,
+            specifiedType: const FullType(String)));
+    }
+    value = object.regNumber;
+    if (value != null) {
+      result
+        ..add('regNumber')
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
@@ -75,13 +75,6 @@ class _$BuiltCardSerializer implements StructuredSerializer<BuiltCard> {
         ..add(serializers.serialize(value,
             specifiedType: const FullType(String)));
     }
-    value = object.schoolName;
-    if (value != null) {
-      result
-        ..add('schoolName')
-        ..add(serializers.serialize(value,
-            specifiedType: const FullType(String)));
-    }
     return result;
   }
 
@@ -96,28 +89,28 @@ class _$BuiltCardSerializer implements StructuredSerializer<BuiltCard> {
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
-        case 'firstName':
-          result.firstName = serializers.deserialize(value,
+        case 'idString':
+          result.idString = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'secondName':
-          result.secondName = serializers.deserialize(value,
+        case 'owner':
+          result.owner = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
-        case 'thirdName':
-          result.thirdName = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'regNumber':
-          result.regNumber = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'idNumber':
-          result.idNumber = serializers.deserialize(value,
+        case 'name':
+          result.name = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'status':
           result.status = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'college_name':
+          result.college_name = serializers.deserialize(value,
+              specifiedType: const FullType(String)) as String?;
+          break;
+        case 'regNumber':
+          result.regNumber = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
         case 'department':
@@ -126,10 +119,6 @@ class _$BuiltCardSerializer implements StructuredSerializer<BuiltCard> {
           break;
         case 'locationFound':
           result.locationFound = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String?;
-          break;
-        case 'schoolName':
-          result.schoolName = serializers.deserialize(value,
               specifiedType: const FullType(String)) as String?;
           break;
       }
@@ -141,37 +130,34 @@ class _$BuiltCardSerializer implements StructuredSerializer<BuiltCard> {
 
 class _$BuiltCard extends BuiltCard {
   @override
-  final String? firstName;
+  final String? idString;
   @override
-  final String? secondName;
+  final String? owner;
   @override
-  final String? thirdName;
-  @override
-  final String? regNumber;
-  @override
-  final String? idNumber;
+  final String? name;
   @override
   final String? status;
+  @override
+  final String? college_name;
+  @override
+  final String? regNumber;
   @override
   final String? department;
   @override
   final String? locationFound;
-  @override
-  final String? schoolName;
 
   factory _$BuiltCard([void Function(BuiltCardBuilder)? updates]) =>
       (new BuiltCardBuilder()..update(updates))._build();
 
   _$BuiltCard._(
-      {this.firstName,
-      this.secondName,
-      this.thirdName,
-      this.regNumber,
-      this.idNumber,
+      {this.idString,
+      this.owner,
+      this.name,
       this.status,
+      this.college_name,
+      this.regNumber,
       this.department,
-      this.locationFound,
-      this.schoolName})
+      this.locationFound})
       : super._();
 
   @override
@@ -185,15 +171,14 @@ class _$BuiltCard extends BuiltCard {
   bool operator ==(Object other) {
     if (identical(other, this)) return true;
     return other is BuiltCard &&
-        firstName == other.firstName &&
-        secondName == other.secondName &&
-        thirdName == other.thirdName &&
-        regNumber == other.regNumber &&
-        idNumber == other.idNumber &&
+        idString == other.idString &&
+        owner == other.owner &&
+        name == other.name &&
         status == other.status &&
+        college_name == other.college_name &&
+        regNumber == other.regNumber &&
         department == other.department &&
-        locationFound == other.locationFound &&
-        schoolName == other.schoolName;
+        locationFound == other.locationFound;
   }
 
   @override
@@ -203,31 +188,26 @@ class _$BuiltCard extends BuiltCard {
             $jc(
                 $jc(
                     $jc(
-                        $jc(
-                            $jc(
-                                $jc($jc(0, firstName.hashCode),
-                                    secondName.hashCode),
-                                thirdName.hashCode),
-                            regNumber.hashCode),
-                        idNumber.hashCode),
-                    status.hashCode),
-                department.hashCode),
-            locationFound.hashCode),
-        schoolName.hashCode));
+                        $jc($jc($jc(0, idString.hashCode), owner.hashCode),
+                            name.hashCode),
+                        status.hashCode),
+                    college_name.hashCode),
+                regNumber.hashCode),
+            department.hashCode),
+        locationFound.hashCode));
   }
 
   @override
   String toString() {
     return (newBuiltValueToStringHelper(r'BuiltCard')
-          ..add('firstName', firstName)
-          ..add('secondName', secondName)
-          ..add('thirdName', thirdName)
-          ..add('regNumber', regNumber)
-          ..add('idNumber', idNumber)
+          ..add('idString', idString)
+          ..add('owner', owner)
+          ..add('name', name)
           ..add('status', status)
+          ..add('college_name', college_name)
+          ..add('regNumber', regNumber)
           ..add('department', department)
-          ..add('locationFound', locationFound)
-          ..add('schoolName', schoolName))
+          ..add('locationFound', locationFound))
         .toString();
   }
 }
@@ -235,29 +215,29 @@ class _$BuiltCard extends BuiltCard {
 class BuiltCardBuilder implements Builder<BuiltCard, BuiltCardBuilder> {
   _$BuiltCard? _$v;
 
-  String? _firstName;
-  String? get firstName => _$this._firstName;
-  set firstName(String? firstName) => _$this._firstName = firstName;
+  String? _idString;
+  String? get idString => _$this._idString;
+  set idString(String? idString) => _$this._idString = idString;
 
-  String? _secondName;
-  String? get secondName => _$this._secondName;
-  set secondName(String? secondName) => _$this._secondName = secondName;
+  String? _owner;
+  String? get owner => _$this._owner;
+  set owner(String? owner) => _$this._owner = owner;
 
-  String? _thirdName;
-  String? get thirdName => _$this._thirdName;
-  set thirdName(String? thirdName) => _$this._thirdName = thirdName;
-
-  String? _regNumber;
-  String? get regNumber => _$this._regNumber;
-  set regNumber(String? regNumber) => _$this._regNumber = regNumber;
-
-  String? _idNumber;
-  String? get idNumber => _$this._idNumber;
-  set idNumber(String? idNumber) => _$this._idNumber = idNumber;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
   String? _status;
   String? get status => _$this._status;
   set status(String? status) => _$this._status = status;
+
+  String? _college_name;
+  String? get college_name => _$this._college_name;
+  set college_name(String? college_name) => _$this._college_name = college_name;
+
+  String? _regNumber;
+  String? get regNumber => _$this._regNumber;
+  set regNumber(String? regNumber) => _$this._regNumber = regNumber;
 
   String? _department;
   String? get department => _$this._department;
@@ -268,24 +248,19 @@ class BuiltCardBuilder implements Builder<BuiltCard, BuiltCardBuilder> {
   set locationFound(String? locationFound) =>
       _$this._locationFound = locationFound;
 
-  String? _schoolName;
-  String? get schoolName => _$this._schoolName;
-  set schoolName(String? schoolName) => _$this._schoolName = schoolName;
-
   BuiltCardBuilder();
 
   BuiltCardBuilder get _$this {
     final $v = _$v;
     if ($v != null) {
-      _firstName = $v.firstName;
-      _secondName = $v.secondName;
-      _thirdName = $v.thirdName;
-      _regNumber = $v.regNumber;
-      _idNumber = $v.idNumber;
+      _idString = $v.idString;
+      _owner = $v.owner;
+      _name = $v.name;
       _status = $v.status;
+      _college_name = $v.college_name;
+      _regNumber = $v.regNumber;
       _department = $v.department;
       _locationFound = $v.locationFound;
-      _schoolName = $v.schoolName;
       _$v = null;
     }
     return this;
@@ -308,15 +283,14 @@ class BuiltCardBuilder implements Builder<BuiltCard, BuiltCardBuilder> {
   _$BuiltCard _build() {
     final _$result = _$v ??
         new _$BuiltCard._(
-            firstName: firstName,
-            secondName: secondName,
-            thirdName: thirdName,
-            regNumber: regNumber,
-            idNumber: idNumber,
+            idString: idString,
+            owner: owner,
+            name: name,
             status: status,
+            college_name: college_name,
+            regNumber: regNumber,
             department: department,
-            locationFound: locationFound,
-            schoolName: schoolName);
+            locationFound: locationFound);
     replace(_$result);
     return _$result;
   }
